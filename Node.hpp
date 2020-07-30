@@ -1,0 +1,8 @@
+
+
+#ifndef STRUCTURES_NODE_HPP
+#define STRUCTURES_NODE_HPP
+
+
+
+#endif
