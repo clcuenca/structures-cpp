@@ -3,6 +3,7 @@
 #include "Node.hpp"
 #include "SingleNode.hpp"
 #include "DoubleNode.hpp"
+#include "LinkedList.hpp"
 #include <iostream>
 
 int main() {
