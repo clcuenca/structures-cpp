@@ -8,24 +8,18 @@
 
 int main() {
 
-	structures::Node<int> node = 10;
-	structures::Node<int> other = 10;
+	structures::LinkedList<int> linkedList;
+	structures::LinkedList<int> otherLinkedList;
 
-	structures::SingleNode<int> singleNode = 69;
-	structures::SingleNode<int> otherNode = 69;
+	for(int index = 0; index < 10; index++) 
+		linkedList += index;
 
-	structures::DoubleNode<int> doubleNode = 13;
-	structures::DoubleNode<int> otherDoubleNode = 13;
+	for(int index = 10; index < 30; index++)
+		otherLinkedList += index;
 
-	if(node == other) {
+	std::cout << linkedList << std::endl;
 
-		std::cout << "They're equal." << std::endl;
-
-	}
-
-	std::cout << node       << " " << other           << std::endl;
-	std::cout << singleNode << " " << otherNode       << std::endl;
-	std::cout << doubleNode << " " << otherDoubleNode << std::endl;
+	std::cout << linkedList + otherLinkedList << std::endl;
 
 	return 0;
 }

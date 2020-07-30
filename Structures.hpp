@@ -30,6 +30,9 @@ namespace structures {
 	template<typename Type>
 	std::istream& operator>> (std::istream&, structures::Node<Type>&);
 
+	template<typename Type>
+	std::ostream& operator<< (std::ostream&, const structures::LinkedList<Type>&);
+
 }
 
 #endif
