@@ -760,6 +760,13 @@ structures::Node<Type>::operator%(const Type& right){
 	
 }
 
+/*
+ * Function: Operator << (Stream insertion operator)
+ * Parameters: output stream, reference to a Node<Type>
+ * Return: the modified output stream
+ * Description: inserts the node's data to the output stream, if the data of Type
+ * is supported by the stream insertion operator
+ */
 template<typename Type>
 std::ostream& structures::operator<< (std::ostream& outputStream, const structures::Node<Type>& node) {
 
@@ -769,6 +776,13 @@ std::ostream& structures::operator<< (std::ostream& outputStream, const structur
 
 }
 
+/*
+ * Function: Operator >> (Stream extraction operator)
+ * Parameters: input stream, reference to a Node<Type>
+ * Return: the modified input stream
+ * Description: extracts the data from the output stream to the node, if the data of Type
+ * is supported by the stream extraction operator
+ */
 template<typename Type>
 std::istream& structures::operator>> (std::istream& inputStream,  structures::Node<Type>& node) {
 
