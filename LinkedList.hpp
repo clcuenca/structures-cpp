@@ -142,10 +142,84 @@ void structures::LinkedList<Type>::prepend(const Type& type) {
 
 }
 
+/*
+ * Function: Append
+ * Parameters: Reference to Immutable Type
+ * Return: n/a
+ * Description: Appends a new node with the given value of Type 
+ */
 template<typename Type>
 void structures::LinkedList<Type>::append(const Type& type) {
 
-	
+	// If the list empty
+	if(!this->head) {
+
+		this->head = new structures::SingleNode<Type>(type);
+		this->tail = this->head;
+
+		// The list is not empty
+	} else {
+
+		structures::SingleNode<Type>* node = new structures::SingleNode<Type>(type);
+
+		static_cast<structures::SingleNode<Type>*>(this->tail)->right = node;
+
+		this->tail = node;
+
+	}
+
+}
+
+/*
+ * Function: prepend
+ * Parameters: Reference to Immutable Node of Type
+ * Return: n/a
+ * Description: Adds the given Node to the beginning of the list
+ */
+template<typename Type>
+void structures::LinkedList<Type>::prepend(const structures::Node<Type>& node) {
+
+	// Create the head
+	if(!this->head) {
+
+		this->head = new structures::SingleNode<Type>(node);
+		this->tail = this->head;
+
+	} else {
+
+		structures::SingleNode<Type>* node = new structures::SingleNode<Type>(node);
+
+		node->right = this->head;
+		this->head = node;
+
+	}
+
+}
+
+/*
+ * Function: Append
+ * Parameters: Reference to Immutable Node of Type
+ * Return: n/a
+ * Description: Adds the given Node to the end of the list
+ */
+template<typename Type>
+void structures::LinkedList<Type>::append(const structures::Node<Type>& node) {
+
+	if(!this->head) {
+
+		this->head = new structures::SingleNode<Type>(node);
+		this->tail = this->head;
+
+	} else {
+
+		structures::SingleNode<Type>* node = new structures::SingleNode<Type>(node);
+
+		static_cast<structures::SingleNode<Type>*>(this->tail)->right = node;
+
+		this->tail = node;
+
+	}
+
 }
 
 #endif
