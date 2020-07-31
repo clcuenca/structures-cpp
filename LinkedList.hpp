@@ -424,6 +424,13 @@ void structures::LinkedList<Type>::clear(){
 /// -------------------------------------
 /// Overloaded Operators - Implementation
 
+/*
+ * Function: Operator == (Equality Operator)
+ * Parameters: Reference to Immutable LinkedList<Type>
+ * Return: Boolean value denoting equivalency of lists
+ * Description: Returns the result of the equality of the given
+ * list
+ */
 template<typename Type>
 bool structures::LinkedList<Type>::operator == (const structures::LinkedList<Type>& linkedList) const {
 
@@ -431,6 +438,13 @@ bool structures::LinkedList<Type>::operator == (const structures::LinkedList<Typ
 
 }
 
+/*
+ * Function: Operator != (Inequality Operator)
+ * Parameters: Reference to Immutable LinkedList<Type>
+ * Return: Boolean value denoting inequivalency of List
+ * Description: Returns the result of the equality of the given
+ * type
+ */
 template<typename Type>
 bool structures::LinkedList<Type>::operator != (const structures::LinkedList<Type>& linkedList) const {
 
@@ -438,15 +452,29 @@ bool structures::LinkedList<Type>::operator != (const structures::LinkedList<Typ
 
 }
 
+/*
+ * Function: Operator = (Assignment Operator)
+ * Parameters: Reference to Immutable LinkedList<Type>
+ * Return: Reference to Mutable Linked List<Type>
+ * Description: Assigns the current state to the given state, if 
+ * the right hand side is not the same instance
+ */
 template<typename Type>
 structures::LinkedList<Type>& structures::LinkedList<Type>::operator  = (const structures::LinkedList<Type>& linkedList) {
 
-	this->setTo(linkedList);
+	if(this != linkedList) this->setTo(linkedList);
 
 	return *this;
 
 }
 
+/*
+ * Function: Operator += (Compound Assignment)
+ * Parameters: Reference to Immutable LinkedList<Type>
+ * Return: Reference to Mutable LinkedList<Type>
+ * Description: Adds the data from the current state, to that
+ * of the given instance
+ */
 template<typename Type>
 structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const structures::LinkedList<Type>& linkedList) {
 
@@ -456,6 +484,12 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const s
 
 }
 
+/*
+ * Function: Operator += (Compound Assignment)
+ * Parameters: Reference to Immutable Abstract Node<Type>
+ * Return: Reference to Mutable LinkedList<Type>
+ * Description: Append the data to the list
+ */
 template<typename Type>
 structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const structures::Node<Type>& node) {
 
@@ -465,6 +499,12 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const s
 
 }
 
+/*
+ * Function: Operator += (Compound Assignment)
+ * Parameters: Reference to Immutable <Type>
+ * Return: Reference to Mutable LinkedList<Type>
+ * Description: Append the data to the list
+ */
 template<typename Type>
 structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const Type& data) {
 
@@ -474,6 +514,14 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const T
 
 }
 
+/*
+ * Function: Operator + (Addition Operator)
+ * Parameters: Reference to Immutable LinkedList<Type>
+ * Return: Instance of Immutable LinkedList<Type>
+ * Description: Creates a new instance of LinkedList<Type>
+ * and sets the data as the addition of this state and the given
+ * state
+ */
 template<typename Type>
 const structures::LinkedList<Type> structures::LinkedList<Type>::operator + (const structures::LinkedList<Type>& linkedList) {
 
