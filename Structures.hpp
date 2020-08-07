@@ -1,4 +1,3 @@
-
 #ifndef STRUCTURES_HPP
 #define STRUCTURES_HPP
 
