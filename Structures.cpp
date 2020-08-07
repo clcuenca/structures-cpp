@@ -1,15 +1,10 @@
-
-#include "Structures.hpp"
-#include "Node.hpp"
-#include "SingleNode.hpp"
-#include "DoubleNode.hpp"
 #include "LinkedList.hpp"
 #include <iostream>
 
 int main() {
 
-	structures::LinkedList<int> linkedList;
-	structures::LinkedList<int> otherLinkedList;
+	structures::LinkedList<int, int> linkedList;
+	structures::LinkedList<int, int> otherLinkedList;
 
 	for(int index = 0; index < 10; index++) 
 		linkedList += index;

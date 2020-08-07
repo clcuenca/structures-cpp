@@ -18,7 +18,7 @@ namespace structures {
 	template<typename Type>
 	class DoubleNode;
 
-	template<typename Type>
+	template<typename Type, typename Index>
 	class LinkedList;
 
     /// ------------------
@@ -30,8 +30,8 @@ namespace structures {
 	template<typename Type>
 	std::istream& operator>> (std::istream&, structures::Node<Type>&);
 
-	template<typename Type>
-	std::ostream& operator<< (std::ostream&, const structures::LinkedList<Type>&);
+	template<typename Type, typename Index>
+	std::ostream& operator<< (std::ostream&, const structures::LinkedList<Type, Index>&);
 
 }
 

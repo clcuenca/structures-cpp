@@ -5,7 +5,7 @@
 #include "Node.hpp"
 #include "SingleNode.hpp"
 
-template<typename Type>
+template<typename Type, typename Index>
 class structures::LinkedList {
 
 protected:
@@ -19,17 +19,19 @@ public:
 	/// Rule of Three
 
 	LinkedList();
-	LinkedList(const structures::LinkedList<Type>&);
+	LinkedList(const structures::LinkedList<Type, Index>&);
 	~LinkedList();
 
     /// -------
 	/// Methods
 
 	bool isEmpty() const;
-	bool isEqual(const structures::LinkedList<Type>&) const;
+	bool isEqual(const structures::LinkedList<Type, Index>&) const;
 
 	/// --------
 	/// Mutators
+
+	void insert(Index&, const Type&);
 
 	void prepend(const Type&);
 	void append(const Type&);
@@ -37,27 +39,27 @@ public:
 	void prepend(const structures::Node<Type>&);
 	void append(const structures::Node<Type>&);
 
-	void prepend(const structures::LinkedList<Type>&);
-	void append(const structures::LinkedList<Type>&);
+	void prepend(const structures::LinkedList<Type, Index>&);
+	void append(const structures::LinkedList<Type, Index>&);
 
-	void setTo(const structures::LinkedList<Type>&);
+	void setTo(const structures::LinkedList<Type, Index>&);
 	void clear();
 
 	/// --------------------
 	/// Overloaded Operators
 
-	bool operator == (const structures::LinkedList<Type>&) const;
-	bool operator != (const structures::LinkedList<Type>&) const;
+	bool operator == (const structures::LinkedList<Type, Index>&) const;
+	bool operator != (const structures::LinkedList<Type, Index>&) const;
 
-	LinkedList<Type>& operator  = (const structures::LinkedList<Type>&);
-	LinkedList<Type>& operator += (const structures::LinkedList<Type>&);
-	LinkedList<Type>& operator += (const structures::Node<Type>&);
-	LinkedList<Type>& operator += (const Type&);
+	LinkedList<Type, Index>& operator  = (const structures::LinkedList<Type, Index>&);
+	LinkedList<Type, Index>& operator += (const structures::LinkedList<Type, Index>&);
+	LinkedList<Type, Index>& operator += (const structures::Node<Type>&);
+	LinkedList<Type, Index>& operator += (const Type&);
 
-	const LinkedList<Type> operator + (const structures::LinkedList<Type>&);
+	const LinkedList<Type, Index> operator + (const structures::LinkedList<Type, Index>&);
 
 
-	friend std::ostream& operator<< <Type>(std::ostream&, const structures::LinkedList<Type>&);
+	friend std::ostream& operator<< <Type, Index>(std::ostream&, const structures::LinkedList<Type, Index>&);
 
 };
 
@@ -70,8 +72,8 @@ public:
  * Return: n/a
  * Description: Initializes the LinkedList
  */
-template<typename Type>
-structures::LinkedList<Type>::LinkedList(): head(0x00), tail(0x00) {}
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>::LinkedList(): head(0x00), tail(0x00) {}
 
 /* 
  * Function: Copy Constructor
@@ -79,8 +81,8 @@ structures::LinkedList<Type>::LinkedList(): head(0x00), tail(0x00) {}
  * Return: n/a
  * Description: Initializes the LinkedList to the state of the given LinkedList
  */
-template<typename Type>
-structures::LinkedList<Type>::LinkedList(const structures::LinkedList<Type>& linkedList): head(0x00), tail(0x00) {
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>::LinkedList(const structures::LinkedList<Type, Index>& linkedList): head(0x00), tail(0x00) {
 
 	this->setTo(linkedList);
 
@@ -92,8 +94,8 @@ structures::LinkedList<Type>::LinkedList(const structures::LinkedList<Type>& lin
  * Return: n/a
  * Description: clears the LinkedList and values
  */
-template<typename Type>
-structures::LinkedList<Type>::~LinkedList() {
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>::~LinkedList() {
 
 	this->clear();
 
@@ -108,8 +110,8 @@ structures::LinkedList<Type>::~LinkedList() {
  * Return: Boolean Value denoting an empty list
  * Description: Checks to see if the given list is empty
  */
-template<typename Type>
-bool structures::LinkedList<Type>::isEmpty() const {
+template<typename Type, typename Index>
+bool structures::LinkedList<Type, Index>::isEmpty() const {
 
 	return (this->head == 0x00) && (this->tail == 0x00);
 
@@ -122,8 +124,8 @@ bool structures::LinkedList<Type>::isEmpty() const {
  * Description: Traverses each list to check for equivalency in Type
  * as long as Type has the != operator
  */
-template<typename Type>
-bool structures::LinkedList<Type>::isEqual(const structures::LinkedList<Type>& linkedList) const {
+template<typename Type, typename Index>
+bool structures::LinkedList<Type, Index>::isEqual(const structures::LinkedList<Type, Index>& linkedList) const {
 
 	/// We want to set the traversal nodes
 	structures::SingleNode<Type>* thisNode =
@@ -149,14 +151,44 @@ bool structures::LinkedList<Type>::isEqual(const structures::LinkedList<Type>& l
 
 }
 
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::insert(Index& index, const Type& data) {
+
+	if(!this->head) {
+
+		this->head = new structures::SingleNode<Type>(data);
+		this->tail = this->head;
+
+	} else {
+
+		structures::SingleNode<Type>* node = new structures::SingleNode<Type>(data);
+
+		structures::SingleNode<Type>* trailer = 
+			static_cast<structures::SingleNode<Type>*>(this->head);
+
+		structures::SingleNode<Type>* current = 
+			static_cast<structures::SingleNode<Type>*>(
+				static_cast<structures::SingleNode<Type>*>(this->head)->right);
+
+		while(index-- && current) {
+
+			current = static_cast<structures::SingleNode<Type>*>(current->right);
+			trailer = static_cast<structures::SingleNode<Type>*>(trailer->right);
+
+		}
+
+	}
+
+}
+
 /*
  * Function: Prepend
  * Parameters: Reference to Immutable Type
  * Return: n/a
  * Description: Adds a new node with the given value to the beginning of the list 
  */
-template<typename Type>
-void structures::LinkedList<Type>::prepend(const Type& type) {
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::prepend(const Type& type) {
 
 	// The list may be empty
 	if(!this->head) {
@@ -182,8 +214,8 @@ void structures::LinkedList<Type>::prepend(const Type& type) {
  * Return: n/a
  * Description: Appends a new node with the given value of Type 
  */
-template<typename Type>
-void structures::LinkedList<Type>::append(const Type& type) {
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::append(const Type& type) {
 
 	// If the list empty
 	if(!this->head) {
@@ -210,8 +242,8 @@ void structures::LinkedList<Type>::append(const Type& type) {
  * Return: n/a
  * Description: Adds the given Node to the beginning of the list
  */
-template<typename Type>
-void structures::LinkedList<Type>::prepend(const structures::Node<Type>& node) {
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::prepend(const structures::Node<Type>& node) {
 
 	// Create the head
 	if(!this->head) {
@@ -236,8 +268,8 @@ void structures::LinkedList<Type>::prepend(const structures::Node<Type>& node) {
  * Return: n/a
  * Description: Adds the given Node to the end of the list
  */
-template<typename Type>
-void structures::LinkedList<Type>::append(const structures::Node<Type>& node) {
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::append(const structures::Node<Type>& node) {
 
 	if(!this->head) {
 
@@ -263,8 +295,8 @@ void structures::LinkedList<Type>::append(const structures::Node<Type>& node) {
  * Description: Creates a copy of the given list, and adds it to
  * the beginning of the current list 
  */
-template<typename Type>
-void structures::LinkedList<Type>::prepend(const structures::LinkedList<Type>& list){
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::prepend(const structures::LinkedList<Type, Index>& list){
 
 	if(!list.isEmpty()){
 
@@ -319,8 +351,8 @@ void structures::LinkedList<Type>::prepend(const structures::LinkedList<Type>& l
  * Description: Creates a copy of the given abstract list, and 
  * adds the copy to the end of the current list 
  */
-template<typename Type>
-void structures::LinkedList<Type>::append(const structures::LinkedList<Type>& list){
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::append(const structures::LinkedList<Type, Index>& list){
 
 	if(!list.isEmpty()){
 
@@ -377,8 +409,8 @@ void structures::LinkedList<Type>::append(const structures::LinkedList<Type>& li
  * Description: Sets the current state to the state of the given
  * list 
  */
-template<typename Type>
-void structures::LinkedList<Type>::setTo(const structures::LinkedList<Type>& list){
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::setTo(const structures::LinkedList<Type, Index>& list){
 
 	// First, we call clear
 	if(!this->isEmpty()) this->clear();
@@ -395,8 +427,8 @@ void structures::LinkedList<Type>::setTo(const structures::LinkedList<Type>& lis
  * Return: n/a
  * Description: Releases the entire list 
  */
-template<typename Type>
-void structures::LinkedList<Type>::clear(){
+template<typename Type, typename Index>
+void structures::LinkedList<Type, Index>::clear(){
 
 	// Beginning with the Next node from the head
 	structures::SingleNode<Type>* current = 
@@ -426,13 +458,13 @@ void structures::LinkedList<Type>::clear(){
 
 /*
  * Function: Operator == (Equality Operator)
- * Parameters: Reference to Immutable LinkedList<Type>
+ * Parameters: Reference to Immutable LinkedList<Type, Index>
  * Return: Boolean value denoting equivalency of lists
  * Description: Returns the result of the equality of the given
  * list
  */
-template<typename Type>
-bool structures::LinkedList<Type>::operator == (const structures::LinkedList<Type>& linkedList) const {
+template<typename Type, typename Index>
+bool structures::LinkedList<Type, Index>::operator == (const structures::LinkedList<Type, Index>& linkedList) const {
 
 	return this->isEqual(linkedList);
 
@@ -440,13 +472,13 @@ bool structures::LinkedList<Type>::operator == (const structures::LinkedList<Typ
 
 /*
  * Function: Operator != (Inequality Operator)
- * Parameters: Reference to Immutable LinkedList<Type>
+ * Parameters: Reference to Immutable LinkedList<Type, Index>
  * Return: Boolean value denoting inequivalency of List
  * Description: Returns the result of the equality of the given
  * type
  */
-template<typename Type>
-bool structures::LinkedList<Type>::operator != (const structures::LinkedList<Type>& linkedList) const {
+template<typename Type, typename Index>
+bool structures::LinkedList<Type, Index>::operator != (const structures::LinkedList<Type, Index>& linkedList) const {
 
 	return !(this->isEqual(linkedList));
 
@@ -454,13 +486,13 @@ bool structures::LinkedList<Type>::operator != (const structures::LinkedList<Typ
 
 /*
  * Function: Operator = (Assignment Operator)
- * Parameters: Reference to Immutable LinkedList<Type>
+ * Parameters: Reference to Immutable LinkedList<Type, Index>
  * Return: Reference to Mutable Linked List<Type>
  * Description: Assigns the current state to the given state, if 
  * the right hand side is not the same instance
  */
-template<typename Type>
-structures::LinkedList<Type>& structures::LinkedList<Type>::operator  = (const structures::LinkedList<Type>& linkedList) {
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>& structures::LinkedList<Type, Index>::operator  = (const structures::LinkedList<Type, Index>& linkedList) {
 
 	if(this != linkedList) this->setTo(linkedList);
 
@@ -470,13 +502,13 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator  = (const s
 
 /*
  * Function: Operator += (Compound Assignment)
- * Parameters: Reference to Immutable LinkedList<Type>
- * Return: Reference to Mutable LinkedList<Type>
+ * Parameters: Reference to Immutable LinkedList<Type, Index>
+ * Return: Reference to Mutable LinkedList<Type, Index>
  * Description: Adds the data from the current state, to that
  * of the given instance
  */
-template<typename Type>
-structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const structures::LinkedList<Type>& linkedList) {
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>& structures::LinkedList<Type, Index>::operator += (const structures::LinkedList<Type, Index>& linkedList) {
 
 	this->append(linkedList);
 
@@ -487,11 +519,11 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const s
 /*
  * Function: Operator += (Compound Assignment)
  * Parameters: Reference to Immutable Abstract Node<Type>
- * Return: Reference to Mutable LinkedList<Type>
+ * Return: Reference to Mutable LinkedList<Type, Index>
  * Description: Append the data to the list
  */
-template<typename Type>
-structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const structures::Node<Type>& node) {
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>& structures::LinkedList<Type, Index>::operator += (const structures::Node<Type>& node) {
 
 	this->append(node);
 
@@ -502,11 +534,11 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const s
 /*
  * Function: Operator += (Compound Assignment)
  * Parameters: Reference to Immutable <Type>
- * Return: Reference to Mutable LinkedList<Type>
+ * Return: Reference to Mutable LinkedList<Type, Index>
  * Description: Append the data to the list
  */
-template<typename Type>
-structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const Type& data) {
+template<typename Type, typename Index>
+structures::LinkedList<Type, Index>& structures::LinkedList<Type, Index>::operator += (const Type& data) {
 
 	this->append(data);
 
@@ -516,16 +548,16 @@ structures::LinkedList<Type>& structures::LinkedList<Type>::operator += (const T
 
 /*
  * Function: Operator + (Addition Operator)
- * Parameters: Reference to Immutable LinkedList<Type>
- * Return: Instance of Immutable LinkedList<Type>
- * Description: Creates a new instance of LinkedList<Type>
+ * Parameters: Reference to Immutable LinkedList<Type, Index>
+ * Return: Instance of Immutable LinkedList<Type, Index>
+ * Description: Creates a new instance of LinkedList<Type, Index>
  * and sets the data as the addition of this state and the given
  * state
  */
-template<typename Type>
-const structures::LinkedList<Type> structures::LinkedList<Type>::operator + (const structures::LinkedList<Type>& linkedList) {
+template<typename Type, typename Index>
+const structures::LinkedList<Type, Index> structures::LinkedList<Type, Index>::operator + (const structures::LinkedList<Type, Index>& linkedList) {
 
-	structures::LinkedList<Type> newList = *this;
+	structures::LinkedList<Type, Index> newList = *this;
 
 	newList += linkedList;
 
@@ -535,13 +567,13 @@ const structures::LinkedList<Type> structures::LinkedList<Type>::operator + (con
 
 /*
  * Function: Operator << (Stream insertion operator)
- * Parameters: output stream, reference to a LinkedList<Type>
+ * Parameters: output stream, reference to a LinkedList<Type, Index>
  * Return: the modified output stream
  * Description: inserts the linked list's data to the output stream, if the data of Type
  * is supported by the stream insertion operator
  */
-template<typename Type>
-std::ostream& structures::operator<< (std::ostream& outputStream, const structures::LinkedList<Type>& linkedList) {
+template<typename Type, typename Index>
+std::ostream& structures::operator<< (std::ostream& outputStream, const structures::LinkedList<Type, Index>& linkedList) {
 
 	structures::SingleNode<Type>* current = static_cast<structures::SingleNode<Type>*>(linkedList.head);
 
