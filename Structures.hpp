@@ -33,6 +33,15 @@ namespace structures {
 	template<typename Type, typename Index>
 	std::ostream& operator<< (std::ostream&, const structures::LinkedList<Type, Index>&);
 
+	/// --------------
+	/// Test Namespace
+
+	namespace test {
+
+		class LinkedListTest;
+
+	}
+
 }
 
 #endif
