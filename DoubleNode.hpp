@@ -1,11 +1,17 @@
-#ifndef DOUBLE_NODE_HPP
-#define DOUBLE_NODE_HPP
+/// Single Node 
+/// Class Representing a node with a two siblings
+/// Author: Carlos L. Cuenca
+/// Date 10/25/2020
+
+#ifndef STRUCTURES_DOUBLE_NODE_HPP
+#define STRUCTURES_DOUBLE_NODE_HPP
 
 /// --------------------------------
 /// DoubleNode<Type>
 /// Type - Type of data to be stored
 /// Double Node, contains one
 /// reference to a sibling Node
+
 template <typename Type>
 class structures::DoubleNode: public structures::SingleNode<Type>{
 

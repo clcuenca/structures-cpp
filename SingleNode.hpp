@@ -1,15 +1,20 @@
+/// Single Node 
+/// Class Representing a node with a single sibling
+/// Author: Carlos L. Cuenca
+/// Date 10/25/2020
+
 #ifndef STRUCTURES_SINGLE_NODE_HPP
 #define STRUCTURES_SINGLE_NODE_HPP
 
 #include "Structures.hpp"
 #include "Node.hpp"
 
-/* 
- * SingleNode<Type>
- * Type - Type of data to be stored
- * Single List Node, contains one
- * reference to a sibling Node
- */
+/// --------------------------------
+/// SingleNode<Type>
+/// Type - Type of data to be stored
+/// Single List Node, contains one
+/// reference to a sibling Node
+
 template<typename Type>
 class structures::SingleNode: public structures::Node<Type>{
 

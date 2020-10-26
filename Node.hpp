@@ -1,7 +1,11 @@
+/// Node 
+/// Class Representing a Node of type Type with overloaded 
+/// operators that can be used if Type has those operators supported
+/// Author: Carlos L. Cuenca
+/// Date 10/25/2020
 
-
-#ifndef structures_NODE_HPP
-#define structures_NODE_HPP
+#ifndef STRUCTURES_NODE_HPP
+#define STRUCTURES_NODE_HPP
 
 #include <iostream>
 #include "structures.hpp"
